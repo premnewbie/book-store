@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://book-store-kiut.onrender.com";
 axios.defaults.withCredentials = true;
 
 export const useBookStore = create((set) => ({
