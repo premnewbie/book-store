@@ -5,6 +5,7 @@ import { useBookStore } from "../store/bookStore";
 
 const UpdateBook = () => {
   const [image, setImage] = useState(null);
+  const [newImage,setNewImage] = useState(false);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -21,6 +22,7 @@ const UpdateBook = () => {
     reader.readAsDataURL(file);
     reader.onloadend = function () {
       setImage(reader.result);
+      setNewImage(true);
     };
   };
 
@@ -39,7 +41,8 @@ const UpdateBook = () => {
       subtitle,
       author,
       link,
-      review
+      review,
+      newImage
     );
     console.log("Should navigate to:",book._id)
     navigate(`/book/${book._id}`);

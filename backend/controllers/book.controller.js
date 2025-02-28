@@ -30,10 +30,9 @@ export const addBook = async (req, res) => {
 export const fetchBooks = async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
-    console.log("Fetch books function called")
     return res.status(200).json({ books });
   } catch (error) {
-    console.log("Error from fetchBooks function", error.message);
+    console.log("Error from fetchBooks function", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -74,8 +73,11 @@ export const deleteBook = async (req, res) => {
       return res.status(404).json({ message: "Could not find the book" });
     }
 
-    const parts = book.image.split("/");
+
+    const parts = await book.image.split("/");
+
     const fileName = parts[parts.length - 1];
+
 
     const imageId = fileName.split(".")[0];
     cloudinary.uploader
@@ -92,38 +94,40 @@ export const deleteBook = async (req, res) => {
 };
 
 export const updateBook = async (req, res) => {
-  const { image, title, subtitle, author, link, review } = req.body;
+  const { image, title, subtitle, author, link, review,newImage } = req.body;
 
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
+    let imageResponse = image;
 
-    if (image) {
+    if (newImage) {
       const parts = book.image.split("/");
       const fileName = parts[parts.length - 1];
       const imageId = fileName.split(".")[0];
       cloudinary.uploader
         .destroy(`Favlib/${imageId}`)
         .then((result) => console.log("result: ", result));
-
-      const imageResponse = await cloudinary.uploader.upload(image, {
+      const imgUrl = await cloudinary.uploader.upload(image, {
         folder: "/Favlib",
       });
-
-      const updatedBook = await Book.findByIdAndUpdate(id, {
-        image: imageResponse.secure_url,
-        title,
-        subtitle,
-        author,
-        link,
-        review,
-      });
-
-      return res
-        .status(200)
-        .json({ book: updatedBook, message: "Book updated successfully." });
+      imageResponse = imgUrl.secure_url;
     }
 
+    console.log("Called the update book function");
+
+    const updatedBook = await Book.findByIdAndUpdate(id, {
+      image: imageResponse,
+      title,
+      subtitle,
+      author,
+      link,
+      review,
+    });
+
+    return res
+      .status(200)
+      .json({ book: updatedBook, message: "Book updated successfully." });
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });

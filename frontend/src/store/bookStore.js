@@ -30,9 +30,10 @@ export const useBookStore = create((set) => ({
         set({isLoading: true})
         try {
             const response = await axios.get(`${API_URL}/auth/fetch-books`);
-            set({books: response.data.books})
+            const books = await response.data.books
+            set({books})
         } catch (error) {
-            console.log("Error in fetchBooks function from bookStore",error.response);
+            console.log("Error in fetchBooks function from bookStore",error.message);
             toast.error("Error fetching books");
         }finally{
             set({isLoading: false});
@@ -84,9 +85,8 @@ export const useBookStore = create((set) => ({
             set({isLoading: false})
         }
     },
-    updateBook: async (id, image, title, subtitle, author, link, review) => {
+    updateBook: async (id, image, title, subtitle, author, link, review,newImage) => {
         set({ isLoading: true});
-    
         try {
           const response = await axios.put(`${API_URL}/auth/update-book/${id}`, {
             image,
@@ -95,6 +95,7 @@ export const useBookStore = create((set) => ({
             author,
             link,
             review,
+            newImage
           });
     
           const { message, book } = await response.data;

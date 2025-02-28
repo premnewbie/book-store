@@ -30,6 +30,7 @@ export const useAuthStore = create((set) => ({
 
   login: async (email, password) => {
     set({ isLoading: true });
+    console.log("Login function called")
     try {
       const response = await axios.post(`${API_URL}/auth/login`, {
         email,
