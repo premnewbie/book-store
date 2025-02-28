@@ -1,6 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
 import Book from "../models/book.model.js";
-import mongoose from "mongoose";
 
 export const addBook = async (req, res) => {
   const { image, title, subtitle, author, link, review } = req.body;
@@ -31,6 +30,7 @@ export const addBook = async (req, res) => {
 export const fetchBooks = async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
+    console.log("Fetch books function called")
     return res.status(200).json({ books });
   } catch (error) {
     console.log("Error from fetchBooks function", error.message);

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/auth.route.js";
 import bookRoutes from "./routes/book.route.js";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 
@@ -27,11 +27,11 @@ app.use(
 app.use("/api", authRoutes);
 app.use("/api", bookRoutes);
 
-if(process.env.NODE_ENV === "production"){
-  app.use(express.static(path.join(__dirname,"/frontend/dist")));
-  app.get("*",(req,res) => {
-    res.sendFile(path.resolve(__dirname,"frontend","dist","index.html"))
-  })
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
 }
 
 app.listen(PORT, async () => {
