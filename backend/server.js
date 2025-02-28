@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://book-store-kiut.onrender.com",
+    origin: "https://book-store-r6qe.onrender.com",
     credentials: true,
   })
 );
