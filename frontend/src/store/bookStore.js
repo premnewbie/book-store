@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const API_URL = "https://book-store-kiut.onrender.com";
+const API_URL = "https://book-store-kiut.onrender.com/api";
 axios.defaults.withCredentials = true;
 
 export const useBookStore = create((set) => ({
@@ -32,7 +32,7 @@ export const useBookStore = create((set) => ({
             const response = await axios.get(`${API_URL}/auth/fetch-books`);
             set({books: response.data.books})
         } catch (error) {
-            console.log("Error in fetchBooks function from bookStore",error.response.data.message);
+            console.log("Error in fetchBooks function from bookStore",error.response);
             toast.error("Error fetching books");
         }finally{
             set({isLoading: false});

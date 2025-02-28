@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const API_URL = "https://book-store-kiut.onrender.com";
+const API_URL = "https://book-store-kiut.onrender.com/api";
 axios.defaults.withCredentials = true;
 
 export const useAuthStore = create((set) => ({
@@ -52,7 +52,7 @@ export const useAuthStore = create((set) => ({
       const response = await axios.get(`${API_URL}/auth/user`);
       set({ user: response.data.user });
     } catch (error) {
-     console.log("Error from getUser function in auth store",error.response.data);
+     console.log("Error from getUser function in auth store",error.response);
     } finally {
       set({ fetchingUser: false });
     }
