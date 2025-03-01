@@ -35,7 +35,7 @@ const BookPage = () => {
       <div className="flex flex-col md:flex-row">
         <div className="md:basis-[30%] md:mr-6 mx-auto w-full">
           <img src={book?.image} className="max-h-[50vh] mx-auto" />
-          <Link to={book?.link} target="_blank">
+          <Link href={book?.link} target="_blank">
             <div className="w-full flex justify-center items-center">
               <button className="bg-[#403d39] text-[#ccc5b9] px-3 py-2 w-full md:max-w-52 mt-3 cursor-pointer">
                 Read
