@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "https://book-store-r6qe.onrender.com",
+    // origin:" http://localhost:5173",
     credentials: true,
   })
 );

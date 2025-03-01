@@ -5,7 +5,7 @@ import { useBookStore } from "../store/bookStore";
 
 const UpdateBook = () => {
   const [image, setImage] = useState(null);
-  const [newImage,setNewImage] = useState(false);
+  const [newImage, setNewImage] = useState(false);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -16,13 +16,13 @@ const UpdateBook = () => {
   const params = useParams();
 
   const handleImageChange = (e) => {
+    setNewImage(true);
     const file = e.target.files[0];
 
     let reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function () {
       setImage(reader.result);
-      setNewImage(true);
     };
   };
 
@@ -33,7 +33,6 @@ const UpdateBook = () => {
       toast.error("Please fill in required information.");
       return;
     }
-
     await updateBook(
       params.id,
       image,
@@ -44,7 +43,7 @@ const UpdateBook = () => {
       review,
       newImage
     );
-    console.log("Should navigate to:",book._id)
+    setNewImage(false);
     navigate(`/book/${book._id}`);
   };
 

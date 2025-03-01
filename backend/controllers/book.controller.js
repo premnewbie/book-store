@@ -73,11 +73,9 @@ export const deleteBook = async (req, res) => {
       return res.status(404).json({ message: "Could not find the book" });
     }
 
-
     const parts = await book.image.split("/");
 
     const fileName = parts[parts.length - 1];
-
 
     const imageId = fileName.split(".")[0];
     cloudinary.uploader
@@ -94,12 +92,12 @@ export const deleteBook = async (req, res) => {
 };
 
 export const updateBook = async (req, res) => {
-  const { image, title, subtitle, author, link, review,newImage } = req.body;
+  const { image, title, subtitle, author, link, review, newImage } = req.body;
 
   const { id } = req.params;
   try {
     const book = await Book.findById(id);
-    let imageResponse = image;
+    let updatedBook;
 
     if (newImage) {
       const parts = book.image.split("/");
@@ -108,22 +106,27 @@ export const updateBook = async (req, res) => {
       cloudinary.uploader
         .destroy(`Favlib/${imageId}`)
         .then((result) => console.log("result: ", result));
-      const imgUrl = await cloudinary.uploader.upload(image, {
+      const imageResponse = await cloudinary.uploader.upload(image, {
         folder: "/Favlib",
       });
-      imageResponse = imgUrl.secure_url;
+      updatedBook = await Book.findByIdAndUpdate(id, {
+        image: imageResponse.secure_url,
+        title,
+        subtitle,
+        author,
+        link,
+        review,
+      });
+    } else {
+      updatedBook = await Book.findByIdAndUpdate(id, {
+        title,
+        subtitle,
+        author,
+        link,
+        review,
+      });
     }
-
     console.log("Called the update book function");
-
-    const updatedBook = await Book.findByIdAndUpdate(id, {
-      image: imageResponse,
-      title,
-      subtitle,
-      author,
-      link,
-      review,
-    });
 
     return res
       .status(200)

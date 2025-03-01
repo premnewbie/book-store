@@ -1,8 +1,4 @@
-import {
-  Link,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useBookStore } from "../store/bookStore";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../store/authStore";
@@ -19,9 +15,9 @@ const BookPage = () => {
   }, [fetchBook, params.id]);
 
   const handleDelete = () => {
-    deleteBook(params.id)
-    navigate("/")
-  }
+    deleteBook(params.id);
+    navigate("/");
+  };
 
   if (isLoading) {
     return (
@@ -41,7 +37,7 @@ const BookPage = () => {
           <img src={book?.image} className="max-h-[50vh] mx-auto" />
           <Link to={book?.link} target="_blank">
             <div className="w-full flex justify-center items-center">
-              <button className="bg-[#403d39] text-[#ccc5b9] px-3 py-2 w-full md:max-w-52 mt-3">
+              <button className="bg-[#403d39] text-[#ccc5b9] px-3 py-2 w-full md:max-w-52 mt-3 cursor-pointer">
                 Read
               </button>
             </div>
@@ -68,17 +64,28 @@ const BookPage = () => {
                         Update
                       </p>
                     </Link>
-                    <p className="text-red-500 cursor-pointer" onClick={handleDelete}>Delete</p>
+                    <p
+                      className="text-red-500 cursor-pointer"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </p>
                   </div>
                 )}
               </div>
             )}
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">{book?.title}</h1>
-          {book?.subtitle && <h3>{book.subtitle}</h3> }
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold">
+            {book?.title}
+          </h1>
+          {book?.subtitle && <h3>{book.subtitle}</h3>}
           <p className="pl-5">Written by: {book?.author}</p>
-          {book?.review && <><p className="mt-2 font-semibold text-lg md:text-xl">Review: </p>
-          <p>{book?.review}</p></>}
+          {book?.review && (
+            <>
+              <p className="mt-2 font-semibold text-lg md:text-xl">Review: </p>
+              <p>{book?.review}</p>
+            </>
+          )}
         </div>
       </div>
     </div>
